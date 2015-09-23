@@ -1,0 +1,53 @@
+# MEL-Scripts
+
+
+TO CREATE INSTANCES AT A VERTEX POINT
+
+
+  string $selection[]= `ls -os -fl`; 
+  string $vertexNames[]= `filterExpand -selectionMask 31 -expand true $selection`; 
+  string $objectToInstance = $selection[0]; 
+  string  $vertex;    
+  
+  for ($vertex in $vertexNames) {  
+     string $newInstance[] = `instance $objectToInstance`; 
+     vector $position = `pointPosition -w $vertex`;                 
+     move -a -ws($position.x) ($position.y) ($position.z) $newInstance ;         
+  }     
+
+
+
+
+TO CREATE A MOLECULE OF OBJECTS
+
+int $countC = 1; 
+
+do    { 
+int $randA = rand(-10,10); 
+int $randB = rand(-10,10); 
+int $randC = rand(-10,10); 
+int $randD = rand(0,100);  
+int $randE = rand(0,200);
+int $randF = rand(0,300);  
+move -r $randA $randB $randC; 
+rotate -r $randD $randE $randF; 
+currentTime $countC;   
+$countC ++;    
+duplicate;    
+} while ($countC <= 50); 
+
+
+
+TO CREATE EXTRUSION SPIKES
+                                
+		 string $selection[]= `ls -os -fl`;
+    string $vertexNames[]= `filterExpand -selectionMask 34 -expand true $selection`;
+    string $objectToInstance = $selection[0];
+    
+ int $c =rand(20);
+       string  $vertex;
+        
+  for ($vertex in $vertexNames) {
+             polyExtrudeFacet -kft false -ltz $c -ls .5 .5 0 $vertex;
+         }
+    
